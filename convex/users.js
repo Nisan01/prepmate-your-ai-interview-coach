@@ -5,7 +5,6 @@ export const store = mutation({
   args: {
     name: v.string(),
     email: v.string(),
-    // Removed stackUserId and image parameters
   },
   handler: async (ctx, args) => {
     const existing = await ctx.db
@@ -14,7 +13,6 @@ export const store = mutation({
       .first();
 
     if (existing) {
-      // Update existing user
       return await ctx.db.patch(existing._id, {
         name: args.name,
         email: args.email,
@@ -28,9 +26,8 @@ export const store = mutation({
       lastSeen: Date.now(),
     });
   },
-});
+})
 
-// Update the query to use email
 export const getByEmail = query({
   args: { email: v.string() },
   handler: async (ctx, args) => {

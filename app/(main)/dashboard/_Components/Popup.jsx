@@ -1,17 +1,32 @@
-"use client";
+
 
 import React, { useState, useEffect } from "react";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useRouter } from "next/navigation";
 
 const Popup = ({ topic, isVisible, onClose, onSubmit }) => {
   const [topicName, setTopicName] = useState("");
+  const createDiscussion = useMutation(api.discussions.createDiscussion);
+  const router = useRouter();
 
   useEffect(() => {
-    if (!isVisible) setTopicName("");  // Clear when closed
+    if (!isVisible) setTopicName("");
   }, [isVisible]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (topicName.trim() !== "") {
-      onSubmit(topicName);
+      try {
+        const discussionId = await createDiscussion({
+          PreTitle: topic, 
+          Title: topicName,
+          conversation: null,
+        });
+        onSubmit(topicName);
+        router.push(`/dashboard/video/${discussionId}`);
+      } catch (error) {
+        console.error("Error saving topic:", error);
+      }
     }
   };
 
