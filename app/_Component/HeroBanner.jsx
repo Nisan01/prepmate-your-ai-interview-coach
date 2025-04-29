@@ -25,10 +25,9 @@ const HeroBanner = () => {
             </span>
           </p>
 
-          <Button size="lg" className="rounded-full px-8 py-6 text-lg bg-blue-500 hover:bg-purple-700">
-            <Link href="/dashboard"></Link>
-            Get Started
-          </Button>
+          <Button asChild className="rounded-full px-6 bg-blue-500 hover:bg-purple-700">
+      <Link href="/dashboard">Dashboard</Link>
+    </Button>
         </section>
       </main>
 
