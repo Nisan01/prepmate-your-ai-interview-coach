@@ -1,7 +1,11 @@
 import React from "react";
 import { Facebook, Instagram, Youtube } from "lucide-react";
 import Image from "next/image";
+<<<<<<< HEAD
 import logo from "../../public/images/logof.png"; // Adjust the path if necessary
+=======
+import logo from "../../public/images/logof.png"; // Adjust the path as necessary
+>>>>>>> 0c06895c5040332bedd65975681d9864ea4a6150
 
 const Footer = () => {
   return (
@@ -15,7 +19,11 @@ const Footer = () => {
        
           <div>
             <Image
+<<<<<<< HEAD
               src={logo}
+=======
+              src={logo} // Use the imported logo variable
+>>>>>>> 0c06895c5040332bedd65975681d9864ea4a6150
               alt="PrepMate Logo"
               width={100}
               height={100}
@@ -43,7 +51,11 @@ const Footer = () => {
                 rel="noopener noreferrer"
               >
                 <Facebook
+<<<<<<< HEAD
                   size={20}
+=======
+                  size={30}
+>>>>>>> 0c06895c5040332bedd65975681d9864ea4a6150
                   className="hover:text-blue-500 cursor-pointer"
                 />
               </a>
@@ -53,7 +65,11 @@ const Footer = () => {
                 rel="noopener noreferrer"
               >
                 <Instagram
+<<<<<<< HEAD
                   size={20}
+=======
+                  size={30}
+>>>>>>> 0c06895c5040332bedd65975681d9864ea4a6150
                   className="hover:text-pink-500 cursor-pointer"
                 />
               </a>
@@ -63,7 +79,11 @@ const Footer = () => {
                 rel="noopener noreferrer"
               >
                 <Youtube
+<<<<<<< HEAD
                   size={20}
+=======
+                  size={30}
+>>>>>>> 0c06895c5040332bedd65975681d9864ea4a6150
                   className="hover:text-red-500 cursor-pointer"
                 />
               </a>
@@ -91,7 +111,11 @@ const Footer = () => {
                   d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25H4.5a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0a2.25 2.25 0 00-2.25-2.25H4.5a2.25 2.25 0 00-2.25 2.25m19.5 0l-9.75 6.5m0 0L2.25 6.75m9.75 6.5v6.5"
                 />
               </svg>
+<<<<<<< HEAD
               <p className="text-gray-300 text-sm">+1 234 567 890</p>
+=======
+              <p className="text-gray-300">prepmate@gmail.com</p>
+>>>>>>> 0c06895c5040332bedd65975681d9864ea4a6150
             </div>
           </div>
         </div>
