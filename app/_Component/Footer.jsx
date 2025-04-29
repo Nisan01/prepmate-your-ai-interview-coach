@@ -91,8 +91,6 @@ const Footer = () => {
                   d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25H4.5a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0a2.25 2.25 0 00-2.25-2.25H4.5a2.25 2.25 0 00-2.25 2.25m19.5 0l-9.75 6.5m0 0L2.25 6.75m9.75 6.5v6.5"
                 />
               </svg>
-
-              <p className="text-gray-300 text-sm">+1 234 567 890</p>
               <p className="text-gray-300">prepmate@gmail.com</p>
             </div>
           </div>
