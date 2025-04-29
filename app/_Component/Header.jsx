@@ -21,8 +21,8 @@ const Header = () => {
           </span>
         </Link>
         <Button asChild className="rounded-full px-6 bg-blue-500 hover:bg-purple-700">
-          <Link href="/dashboard">DashBoard</Link>
-        </Button>
+      <Link href="/dashboard">Get Started</Link>
+    </Button>
       </header>
     </>
   );
