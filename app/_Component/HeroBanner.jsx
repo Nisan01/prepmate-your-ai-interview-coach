@@ -123,7 +123,7 @@ const HeroBanner = () => {
       Ready to ace your next preparation?
     </h2>
     <Button asChild className="rounded-full px-6 bg-blue-500 hover:bg-purple-700">
-      <Link href="/get-started">Get Started</Link>
+      <Link href="/dashboard">Get Started</Link>
     </Button>
   </div>
 
