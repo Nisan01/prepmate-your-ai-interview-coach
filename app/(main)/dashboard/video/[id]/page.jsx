@@ -320,30 +320,32 @@ export default function VideoCallWithChat() {
         ? prepOption.summeryPrompt.replace('{user_topic}', topic)
         : `Provide a summary of the ${topic} interview performance, highlighting strengths and areas for improvement.`;
       
-      // Save conversation first
-      await updateConversation({
-        id: discussionId,
-        conversation: conversationData,
-        feedback: null // Will update with feedback later
-      });
-      
-      // Generate feedback using AI model
+      // Generate feedback using AI model first
       setIsGeneratingFeedback(true);
       const conversationText = messages.map(msg => 
         `${msg.isUser ? "User" : "AI"}: ${msg.text}`
       ).join("\n\n");
       
       const feedbackPrompt = `${summaryPrompt}\n\nHere is the conversation:\n${conversationText}`;
-      const feedbackResponse = await AIMODEL(preparationType, topic, feedbackPrompt);
-      setIsGeneratingFeedback(false);
       
-      // Update with feedback
+      let feedbackResponse;
+      try {
+        feedbackResponse = await AIMODEL(preparationType, topic, feedbackPrompt);
+      } catch (error) {
+        console.error("Error generating feedback:", error);
+        feedbackResponse = "Unable to generate feedback at this time.";
+      }
+      
+      setIsGeneratingFeedback(false);
+      setFeedback(feedbackResponse);
+      
+      // Save conversation with the feedback in a single operation
       await updateConversation({
         id: discussionId,
-        feedback: feedbackResponse
+        conversation: conversationData,
+        feedback: feedbackResponse // This ensures feedback is always a string
       });
       
-      setFeedback(feedbackResponse);
       alert("Conversation saved and feedback generated successfully!");
       
       // Redirect to dashboard
