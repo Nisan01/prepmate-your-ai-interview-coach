@@ -26,7 +26,7 @@ const HeroBanner = () => {
           </p>
 
           <Button asChild className="rounded-full px-6 bg-blue-500 hover:bg-purple-700">
-      <Link href="/dashboard">Dashboard</Link>
+      <Link href="/dashboard">Introducing</Link>
     </Button>
         </section>
       </main>
