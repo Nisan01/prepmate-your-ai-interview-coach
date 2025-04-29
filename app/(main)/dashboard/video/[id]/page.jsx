@@ -281,6 +281,18 @@ export default function VideoCallWithChat() {
     }
   };
 
+  // Add these additional loading states
+  const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false);
+  const [isSpeechRecognitionSupported, setIsSpeechRecognitionSupported] = useState(true);
+  
+  // Check speech recognition support on component mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      setIsSpeechRecognitionSupported(!!SpeechRecognition);
+    }
+  }, []);
+
   const handleSaveConversation = async () => {
     if (messages.length === 0) {
       alert("No conversation to save. Please have a conversation first.");
@@ -308,18 +320,26 @@ export default function VideoCallWithChat() {
         ? prepOption.summeryPrompt.replace('{user_topic}', topic)
         : `Provide a summary of the ${topic} interview performance, highlighting strengths and areas for improvement.`;
       
+      // Save conversation first
+      await updateConversation({
+        id: discussionId,
+        conversation: conversationData,
+        feedback: null // Will update with feedback later
+      });
+      
       // Generate feedback using AI model
+      setIsGeneratingFeedback(true);
       const conversationText = messages.map(msg => 
         `${msg.isUser ? "User" : "AI"}: ${msg.text}`
       ).join("\n\n");
       
       const feedbackPrompt = `${summaryPrompt}\n\nHere is the conversation:\n${conversationText}`;
       const feedbackResponse = await AIMODEL(preparationType, topic, feedbackPrompt);
+      setIsGeneratingFeedback(false);
       
-      // Save conversation and feedback to Convex
+      // Update with feedback
       await updateConversation({
         id: discussionId,
-        conversation: conversationData,
         feedback: feedbackResponse
       });
       
@@ -333,6 +353,7 @@ export default function VideoCallWithChat() {
       alert("Failed to save conversation. Please try again.");
     } finally {
       setIsSaving(false);
+      setIsGeneratingFeedback(false);
     }
   };
 
@@ -416,20 +437,28 @@ export default function VideoCallWithChat() {
           {/* Connect / Disconnect Buttons */}
           <div className="flex gap-4 mt-6">
             {!isConnected ? (
-              <button
-                onClick={handleConnect}
-                disabled={isConnecting}
-                className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition disabled:bg-green-300 flex items-center"
-              >
-                {isConnecting ? (
-                  <>
-                    <span className="animate-spin h-4 w-4 mr-2 border-t-2 border-b-2 border-white rounded-full"></span>
-                    Connecting...
-                  </>
+              <>
+                {!isSpeechRecognitionSupported ? (
+                  <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-lg">
+                    Speech recognition is not supported in your browser. Please try Chrome or Edge.
+                  </div>
                 ) : (
-                  "Connect"
+                  <button
+                    onClick={handleConnect}
+                    disabled={isConnecting}
+                    className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg transition disabled:bg-green-300 flex items-center"
+                  >
+                    {isConnecting ? (
+                      <>
+                        <span className="animate-spin h-4 w-4 mr-2 border-t-2 border-b-2 border-white rounded-full"></span>
+                        Connecting...
+                      </>
+                    ) : (
+                      "Connect"
+                    )}
+                  </button>
                 )}
-              </button>
+              </>
             ) : (
               <button
                 onClick={handleDisconnect}
@@ -444,13 +473,18 @@ export default function VideoCallWithChat() {
             {messages.length > 0 && (
               <button
                 onClick={handleSaveConversation}
-                disabled={isSaving}
+                disabled={isSaving || isGeneratingFeedback}
                 className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition disabled:bg-blue-300 flex items-center"
               >
                 {isSaving ? (
                   <>
                     <span className="animate-spin h-4 w-4 mr-2 border-t-2 border-b-2 border-white rounded-full"></span>
                     Saving...
+                  </>
+                ) : isGeneratingFeedback ? (
+                  <>
+                    <span className="animate-spin h-4 w-4 mr-2 border-t-2 border-b-2 border-white rounded-full"></span>
+                    Generating Feedback...
                   </>
                 ) : (
                   "Save & Generate Feedback"
@@ -461,9 +495,23 @@ export default function VideoCallWithChat() {
           
           {/* Show feedback if available */}
           {feedback && (
-            <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg w-full max-w-4xl">
-              <h3 className="text-lg font-bold mb-2">Interview Feedback:</h3>
-              <p className="whitespace-pre-line">{feedback}</p>
+            <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200 rounded-lg w-full max-w-4xl shadow-md">
+              <h3 className="text-xl font-bold mb-2 text-blue-700">Interview Feedback:</h3>
+              <div className="whitespace-pre-line text-gray-700">{feedback}</div>
+            </div>
+          )}
+          
+          {/* Video instructions */}
+          {!isConnected && !feedback && (
+            <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg w-full max-w-4xl">
+              <h3 className="text-lg font-bold mb-2 text-blue-700">How to use this interview simulator:</h3>
+              <ol className="list-decimal pl-5 space-y-2 text-gray-700">
+                <li>Click the <span className="font-semibold text-green-600">Connect</span> button to start the interview</li>
+                <li>Speak clearly into your microphone to answer questions</li>
+                <li>The AI interviewer will respond to your answers</li>
+                <li>You can also type responses in the chat box</li>
+                <li>When finished, click <span className="font-semibold text-blue-600">Save & Generate Feedback</span> to get an assessment</li>
+              </ol>
             </div>
           )}
         </>
