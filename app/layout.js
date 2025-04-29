@@ -3,8 +3,8 @@ import { StackProvider, StackTheme } from "@stackframe/stack";
 import { stackServerApp } from "../stack";
 import "./globals.css";
 import Providers from "./providers";
-import Header from "./_Component/Header";
 import Footer from "./_Component/Footer";
+import { icons } from "lucide-react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
+  icons:{
+    icon:"/images/logof.png",
+  },
   title: "PrepMate - Your AI Interview Coach",
   description: "Prepare for interviews with AI assistance",
 };
@@ -28,7 +31,7 @@ export default function RootLayout({ children }) {
         <StackProvider app={stackServerApp}>
           <StackTheme>
             <Providers>
-              <Header/>
+             
               {children}
               <Footer/>
               </Providers>

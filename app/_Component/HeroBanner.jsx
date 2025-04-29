@@ -25,7 +25,8 @@ const HeroBanner = () => {
             </span>
           </p>
 
-          <Button size="lg" className="rounded-full px-8 py-6 text-lg bg-blue-500">
+          <Button size="lg" className="rounded-full px-8 py-6 text-lg bg-blue-500 hover:bg-purple-700">
+            <Link href="/dashboard"></Link>
             Get Started
           </Button>
         </section>
@@ -62,7 +63,7 @@ const HeroBanner = () => {
       <div
   className="px-4 py-12 md:py-20 bg-cover bg-center"
   style={{
-    backgroundImage: "url('/images/banner-bg.png')",
+    backgroundImage: "url('/images/extra-bg.png')",
     backgroundPosition: 'bottom', 
     backgroundSize: 'cover',
   }}
@@ -117,11 +118,11 @@ const HeroBanner = () => {
       {/* Final Section */}
       <section className="flex  flex-col md:flex-row items-center justify-between h-[250px] p-8"      style={{ backgroundImage: "url('/images/bg_dark.gif')" }}>
   {/* Text Section */}
-  <div className="text-center md:text-left md:w-1/2 mb-6 md:mb-0 mx-18">
-    <h2 className="text-2xl font-bold text-white mb-4">
+  <div className="text-center md:ml-[350px] md:w-1/2 mb-6 md:mb-0 mx-18">
+    <h2 className="text-2xl font-bold  text-white mb-4">
       Ready to ace your next preparation?
     </h2>
-    <Button asChild className="rounded-full px-6 bg-[#5299d9] hover:bg-purple-700">
+    <Button asChild className="rounded-full px-6 bg-blue-500 hover:bg-purple-700">
       <Link href="/get-started">Get Started</Link>
     </Button>
   </div>

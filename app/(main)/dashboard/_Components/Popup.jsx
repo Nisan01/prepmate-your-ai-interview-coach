@@ -1,58 +1,46 @@
 
 
-import React, { useState, useEffect } from "react";
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import { useRouter } from "next/navigation";
+import React, { useState } from 'react';
 
 const Popup = ({ topic, isVisible, onClose, onSubmit }) => {
-  const [topicName, setTopicName] = useState("");
-  const createDiscussion = useMutation(api.discussions.createDiscussion);
-  const router = useRouter();
+  const [topicName, setTopicName] = useState('');
 
-  useEffect(() => {
-    if (!isVisible) setTopicName("");
-  }, [isVisible]);
-
-  const handleSubmit = async () => {
-    if (topicName.trim() !== "") {
-      try {
-        const discussionId = await createDiscussion({
-          PreTitle: topic, 
-          Title: topicName,
-          conversation: null,
-        });
-        onSubmit(topicName);
-        router.push(`/dashboard/video/${discussionId}`);
-      } catch (error) {
-        console.error("Error saving topic:", error);
-      }
+  const handleSubmit = () => {
+    if (topicName.trim() === '') {
+      alert('Please enter a topic name');
+      return;
     }
+    onSubmit(topicName, topic); // Pass both the topic name and the selected topic type
+    setTopicName('');
   };
 
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-gray-500 bg-opacity-50 flex justify-center items-center p-4">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl">
-        <h3 className="text-xl mb-6 text-center">{`Enter ${topic} Topic`}</h3>
+    <div className="fixed inset-0 z-50 bg-black bg-opacity-60 flex justify-center items-center p-4">
+     <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-4xl">
+        <h3 className="text-2xl font-bold text-white mb-6 text-center">
+          {`Enter ${topic} Topic`}
+        </h3>
+
         <input
           type="text"
           value={topicName}
           onChange={(e) => setTopicName(e.target.value)}
-          className="border p-3 w-full mb-6 rounded-md"
+          className="border border-white/30 bg-white/90 text-black p-3 w-full mb-6 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
           placeholder={`Enter ${topic} topic name`}
         />
+
         <div className="flex flex-col sm:flex-row justify-between gap-4">
           <button
             onClick={onClose}
-            className="px-6 py-3 bg-gray-400 text-white rounded-md w-full sm:w-auto"
+            className="px-6 py-3 bg-gradient-to-r from-gray-400 to-gray-600 hover:from-gray-500 hover:to-gray-700 text-white font-medium rounded-md w-full sm:w-auto transition-all duration-300"
           >
             Cancel
           </button>
           <button
             onClick={handleSubmit}
-            className="px-6 py-3 bg-blue-500 text-white rounded-md w-full sm:w-auto"
+            className="px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold rounded-md w-full sm:w-auto transition-all duration-300"
           >
             Next
           </button>

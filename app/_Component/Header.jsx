@@ -6,7 +6,7 @@ const Header = () => {
     <>
       {/* Header */}
       <header
-        className="fixed  top-0  left-0 w-full py-5 px-8 flex items-center justify-between border-b border-white/20 bg-black/5 backdrop-blur shadow-md z-50"
+        className="fixed  top-0  left-0 w-full py-2 md:py-5 backdrop:blur  px-2 md:p-8  flex items-center justify-between border-b border-white/20 bg-black/5 backdrop-blur shadow-md z-50"
         style={{ backgroundImage: "url('/images/banner-bg.png')" }}
       >
         <Link href="/" className="flex items-center gap-3">
@@ -20,8 +20,8 @@ const Header = () => {
             PrepMate
           </span>
         </Link>
-        <Button asChild className="rounded-full px-6 bg-blue-500">
-          <Link href="/get-started">Sign Up</Link>
+        <Button asChild className="rounded-full px-6 bg-blue-500 hover:bg-purple-700">
+          <Link href="/dashboard">DashBoard</Link>
         </Button>
       </header>
     </>

@@ -2,17 +2,21 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
-  users: defineTable({
-    name: v.string(),
-    email: v.string(),
-    lastSeen: v.number(),
-  }),
   discussions: defineTable({
-    PreTitle: v.optional(v.string()),
+    PreTitle: v.string(),
     Title: v.string(),
-    conversation: v.optional(v.any()),
+    // Update to handle both null values and arrays
+    conversation: v.optional(v.union(
+      v.null(),
+      v.array(v.object({
+        text: v.string(),
+        isUser: v.boolean(),
+        timestamp: v.number()
+      }))
+    )),
+    feedback: v.optional(v.string()),
     createdAt: v.float64(),
-    updatedAt: v.optional(v.float64()),
-    userId: v.optional(v.string()), // Add this line to include userId in the schema
+    // Make updatedAt optional
+    updatedAt: v.optional(v.float64())
   }),
 });

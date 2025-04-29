@@ -1,21 +1,25 @@
 "use client";
-import { preprationOption } from '@/Service/PreparationData';
+import { preprationOption } from "@/Service/PreparationData";
 
 const PrepCard = ({ onCardClick }) => {
   return (
-    <div className="grid grid-cols-2 gap-4 lg:grid-cols-5 p-6">
+    <div className="grid text-white grid-cols-1 md:grid-cols-2 gap-6 lg:grid-cols-4 p-6 cursor-pointer">
       {preprationOption.map((activity, index) => (
         <div
           key={index}
-          className="flex flex-col items-center justify-center p-6 bg-white border border-gray-200 rounded-xl shadow-md hover:shadow-xl hover:border-blue-300 transition-all duration-300 transform hover:-translate-y-1"
+          className="flex flex-col items-center justify-center p-8 bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl border border-gray-700 hover:border-white/50 transition-all duration-300 transform hover:-translate-y-2"
           onClick={() => onCardClick(index, activity.name)}
         >
-          <div className="text-blue-500 text-3xl mb-3">
-            {/* Render the icon as a component */}
-            <activity.icon size={28} />
+          <div className="bg-white/20 p-4 rounded-full mb-4">
+            <activity.icon size={32} className="text-white" />
           </div>
-          <h2 className="text-center text-sm font-medium text-gray-800">{activity.name}</h2>
-          <div className="mt-2 w-16 h-1 bg-blue-400 rounded-full opacity-75"></div>
+          <h2 className="text-center text-lg font-bold text-white mb-2">
+            {activity.name}
+          </h2>
+          <p className="text-xs text-white/80 text-center">
+            Click to start your {activity.name.toLowerCase()} session
+          </p>
+          <div className="mt-4 w-20 h-1 bg-white/40 rounded-full"></div>
         </div>
       ))}
     </div>
